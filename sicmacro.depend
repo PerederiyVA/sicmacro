@@ -1,0 +1,14 @@
+# depslib dependency file v1.0
+1596107896 source:/mnt/c3bc1f07-e4be-4b98-934f-4a6ca7c17ae9/CodeBlocks Projects/sicmacro/main.cpp
+	<iostream>
+	<filesystem>
+	<string>
+	<fstream>
+
+1595020259 source:/mnt/c3bc1f07-e4be-4b98-934f-4a6ca7c17ae9/CodeBlocks Projects/sicmacro/utils.cpp
+	"utils.h"
+	<iostream>
+
+1595020269 /mnt/c3bc1f07-e4be-4b98-934f-4a6ca7c17ae9/CodeBlocks Projects/sicmacro/utils.h
+	<string>
+
