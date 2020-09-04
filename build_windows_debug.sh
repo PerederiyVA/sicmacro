@@ -1,0 +1,1 @@
+x86_64-w64-mingw32-g++ -Wall -std=c++17 -fexceptions -g -D_DEBUG main.cpp -o "./bin/Debug/sicmacro.exe" 

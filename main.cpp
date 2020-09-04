@@ -49,8 +49,8 @@ int main(int argc, char *argv[])
         destFilepath = argv[2];
     }
 
-    debugOutput("The source file is: " + string(sourceFilepath));
-    debugOutput("The destination file is: " + string(destFilepath));
+    debugOutput("The source file is: " + sourceFilepath.string());
+    debugOutput("The destination file is: " + destFilepath.string());
 
     debugOutput("Commencing macroassembly...");
     ifstream sourceFile(sourceFilepath);
