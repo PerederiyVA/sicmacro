@@ -12,3 +12,10 @@
 1595020269 /mnt/c3bc1f07-e4be-4b98-934f-4a6ca7c17ae9/CodeBlocks Projects/sicmacro/utils.h
 	<string>
 
+1599502922 source:c:\users\gamew\documents\github\sicmacro\main.cpp
+	<iostream>
+	<filesystem>
+	<string>
+	<fstream>
+	<vector>
+
