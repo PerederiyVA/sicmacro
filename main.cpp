@@ -63,6 +63,10 @@ int main(int argc, char *argv[])
         destFilepath = argv[2];
     }
 
+    if (sourceFilepath == destFilepath) {
+        cout << "ERROR: Destination file cannot be the same as the source file" << endl;
+        return 1;
+    }
     debugOutput("The source file is: " + sourceFilepath.string());
     debugOutput("The destination file is: " + destFilepath.string());
     debugOutput("Commencing macroassembly...");
@@ -150,11 +154,11 @@ void processLine(vector<macroDefinition>* macroDefArray, string line, ifstream* 
     splitLine(line, &label, &opcode, &parameters);
 
     if (label == "" && opcode == "" && parameters == "") {
-        debugOutput("Line " + to_string(*lineNumber) + " is empty!");
+        //debugOutput("Line " + to_string(*lineNumber) + " is empty!");
         return;
     }
     else {
-        debugOutput("Line " + to_string(*lineNumber) + " has label: " + label + ", opcode: " + opcode + ", params: " + parameters);
+        //debugOutput("Line " + to_string(*lineNumber) + " has label: " + label + ", opcode: " + opcode + ", params: " + parameters);
     }
 
     // Searches for a macro definition of the same name in the vector
@@ -163,10 +167,13 @@ void processLine(vector<macroDefinition>* macroDefArray, string line, ifstream* 
     if (opcode == "MACRO") {
         macroDefinition newDefinition = defineMacro(sourceFile, lineNumber, label, parameters);
         macroDefArray->push_back(newDefinition);
-        debugOutput("Macro " + newDefinition.name + " defined with parameters " + newDefinition.params + " with the following code:\n" + newDefinition.code);
+        if (newDefinition.params != "")
+            debugOutput("Line " + to_string(*lineNumber) + ": Macro " + newDefinition.name + " defined with parameters " + newDefinition.params + ", with the following code:\n" + newDefinition.code);
+        else
+            debugOutput("Line " + to_string(*lineNumber) + ": Macro " + newDefinition.name + " defined without parameters, with the following code:\n" + newDefinition.code);
     }
     else if (foundMacro.name == opcode) {
-        debugOutput("Found a macro call, expanding...");
+        debugOutput("Line " + to_string(*lineNumber) + ": Found a " + opcode + " macro call, expanding...");
         expandMacro(destFile, foundMacro, label, parameters);
     }
     else {
@@ -194,7 +201,7 @@ macroDefinition defineMacro(ifstream* sourceFile, unsigned int* lineNumber, stri
     while (opcode != "MEND") {
         line = sanitizeString(line);
         bool lineIsNotEmpty = (label != "" || opcode != "" || params != "");
-        debugOutput(label + " " + opcode + " " + params);
+        //debugOutput(label + " " + opcode + " " + params);
         if (lineIsNotEmpty)
             newDefinition.code += line;
 
@@ -239,9 +246,9 @@ void expandMacro(ofstream* destFile, macroDefinition macroToExpand, string label
             currentLineOfCode.label = currentLineLabel;
             currentLineOfCode.opcode = currentLineOpcode;
 
-            // Remove all spaces in the parameters strings
             vector<string> tempParameterVector;
             if (currentLineParameters != "") {
+                // Remove all spaces in the parameters strings
                 currentLineParameters.erase(remove_if(currentLineParameters.begin(), currentLineParameters.end(), ::isspace), currentLineParameters.end());
                 string delimiter = ",";
                 size_t paramLineSeek;
