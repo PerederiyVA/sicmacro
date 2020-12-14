@@ -3,6 +3,7 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include "./utils.h"
 
 using namespace std;
 
@@ -162,6 +163,8 @@ void processLine(vector<macroDefinition>* macroDefArray, string line, ifstream* 
         //debugOutput("Line " + to_string(*lineNumber) + " has label: " + label + ", opcode: " + opcode + ", params: " + parameters);
     }
 
+    if (label.length() > 6) cout << "Line " << *lineNumber << ": Warning - label " << label << " is over 6 characters long!" << endl;
+
     // Searches for a macro definition of the same name in the vector
     // If not found, will return a null macro with all empty fields
     macroDefinition foundMacro = findMacro(macroDefArray, opcode);
@@ -177,7 +180,11 @@ void processLine(vector<macroDefinition>* macroDefArray, string line, ifstream* 
         debugOutput("Line " + to_string(*lineNumber) + ": Found a " + opcode + " macro call, expanding...");
         expandMacro(destFile, foundMacro, label, parameters);
     }
+    else if (isCommand(opcode)) {
+        *destFile << label << "\t" << opcode << "\t" << parameters << endl;
+    }
     else {
+        cout << "Line " << *lineNumber << ": Warning - unknown command " << opcode << endl;
         *destFile << label << "\t" << opcode << "\t" << parameters << endl;
     }
 }
@@ -186,6 +193,10 @@ macroDefinition defineMacro(ifstream* sourceFile, vector<macroDefinition>* macro
     macroDefinition newDefinition;
     newDefinition.name = macroName;
     newDefinition.params = macroParameters;
+
+    if (isCommand(macroName)) cout << "Line " << *lineNumber << ": Warning - " << macroName << " replaces a SIC/XE command!" << endl;
+    macroDefinition searchDefinedMacro = findMacro(macroDefArray, macroName);
+    if (searchDefinedMacro.name == macroName) cout << "Line " << *lineNumber << ": Warning - " << macroName << " is already defined!" << endl;
 
     string line;
 
@@ -216,7 +227,7 @@ macroDefinition defineMacro(ifstream* sourceFile, vector<macroDefinition>* macro
                 newDefinition.code += line;
             }
         }
-            
+
 
         if (!getline(*sourceFile, line)) isEOF = true;
         *lineNumber = *lineNumber + 1;

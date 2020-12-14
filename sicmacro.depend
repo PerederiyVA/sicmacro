@@ -12,10 +12,15 @@
 1595020269 /mnt/c3bc1f07-e4be-4b98-934f-4a6ca7c17ae9/CodeBlocks Projects/sicmacro/utils.h
 	<string>
 
-1605103985 source:c:\users\gamew\documents\github\sicmacro\main.cpp
+1607960327 source:c:\users\gamew\documents\github\sicmacro\main.cpp
 	<iostream>
 	<filesystem>
 	<string>
 	<fstream>
 	<vector>
+	"./utils.h"
+
+1607959652 c:\users\gamew\documents\github\sicmacro\utils.h
+	<string>
+	<iostream>
 
