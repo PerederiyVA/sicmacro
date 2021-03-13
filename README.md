@@ -1,2 +1,4 @@
 # sicmacro
-A SIC/XE macroassembler written in C++
+A SIC/XE macroprocessor written in C++
+
+Compile using g++ or MinGW. CodeBlocks project is included.
